@@ -3,6 +3,7 @@ let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
+const axios = require("axios");
 
 
 public_users.post("/register", (req,res) => {
@@ -21,6 +22,47 @@ public_users.post("/register", (req,res) => {
 public_users.get('/',function (req, res) {
   res.send(JSON.stringify(books));
 });
+
+let url = "https://kozachokolek-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/";
+async function getAllBooks() {
+    try {
+        const response = await axios.get(url)
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log('Error fetching books');
+    }
+}
+
+async function getBooksByIsbn(isbn){
+    try {
+        const response = await axios.get(url+'isbn/'+isbn);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log('Error fetching books by isbn');
+    }
+}
+
+async function getBooksByAuthor(author){
+    try {
+        const response = await axios.get(url+'author/'+author);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log('Error fetching books by author');
+    }
+}
+
+async function getBooksByTitle(title){
+    try {
+        const response = await axios.get(url+'title/'+title);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.log('Error fetching books by title');
+    }
+}
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
