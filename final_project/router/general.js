@@ -12,7 +12,8 @@ public_users.post("/register", (req,res) => {
   if (!password) res.status(404).json({message: "Password not provided"});
   if (!isValid(username)) res.status(404).json({message: "User with such username already exists"});
   else {
-
+    users.push({'username': username, 'password': password});
+    res.status(200).json({message: "Your account has been successfully registered"});
   }
 });
 
